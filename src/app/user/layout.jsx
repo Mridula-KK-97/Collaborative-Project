@@ -2,7 +2,7 @@
 import { FaSearch, FaMicrophone, FaUser } from "react-icons/fa";
 import react,{ useState } from "react";
 
-const userlayout=()=> {
+const Userlayout=()=> {
   const [veg, setVeg] = useState(false);
   const [nonVeg, setNonVeg] = useState(false);
   const [egg, setEgg] = useState(false);
@@ -77,4 +77,4 @@ const userlayout=()=> {
 }
 
 
-export default userlayout
+export default Userlayout

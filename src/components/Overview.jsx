@@ -1,5 +1,8 @@
 'use client';
-import {Grid,Card,CardContent,Typography,Box,Table,TableBody,TableCell,TableContainer,TableHead,TableRow,Chip,Avatar} from '@mui/material';
+import {
+  Grid, Card, CardContent, Typography, Box, Table, TableBody, TableCell,
+  TableContainer, TableHead, TableRow, Chip, Avatar
+} from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
@@ -29,8 +32,8 @@ const Overview = () => {
   };
 
   return (
-    <Box sx={{ p: 3}}>
-      <Box display="flex" justifyContent="space-between" alignItems="center" mb={3}>
+    <Box sx={{ p: { xs: 2, sm: 3 } }}>
+      <Box display="flex" justifyContent="space-between" alignItems="center" flexWrap="wrap" mb={3}>
         <Typography variant="h5" fontWeight="bold">Dashboard Overview</Typography>
         <Typography variant="body2" color="text.secondary">
           {new Date().toLocaleDateString('en-US', {
@@ -41,7 +44,7 @@ const Overview = () => {
 
       <Grid container spacing={3} mb={3}>
         {stats.map((stat) => (
-          <Grid item xs={12} sm={6} md={3} key={stat.label} sx={{ minWidth: 270 }}>
+          <Grid item xs={12} sm={6} md={3} key={stat.label} sx={{ minWidth: { xs: '100%', sm: 270 } }}>
             <Card sx={{ borderRadius: 3, boxShadow: 1 }}>
               <CardContent>
                 <Box display="flex" alignItems="center" gap={2}>
@@ -59,10 +62,10 @@ const Overview = () => {
         ))}
       </Grid>
 
-      <Card sx={{ borderRadius: 3, boxShadow: 4}}>
+      <Card sx={{ borderRadius: 3, boxShadow: 4 }}>
         <CardContent>
           <Typography variant="h6" gutterBottom fontWeight="bold">Recent Orders</Typography>
-          <TableContainer>
+          <TableContainer sx={{ overflowX: 'auto' }}>
             <Table>
               <TableHead>
                 <TableRow>
@@ -77,14 +80,10 @@ const Overview = () => {
               <TableBody>
                 {orders.map((order) => (
                   <TableRow key={order.id}>
-                    <TableCell>
-                        <Typography fontWeight="bold">{order.id}</Typography>
-                    </TableCell>
+                    <TableCell><Typography fontWeight="bold">{order.id}</Typography></TableCell>
                     <TableCell>{order.table}</TableCell>
                     <TableCell>{order.items} items</TableCell>
-                    <TableCell>
-                        <Typography fontWeight="bold">{order.total}</Typography>
-                    </TableCell>
+                    <TableCell><Typography fontWeight="bold">{order.total}</Typography></TableCell>
                     <TableCell>
                       <Chip
                         label={order.status}

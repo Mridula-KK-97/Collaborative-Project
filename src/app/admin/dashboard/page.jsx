@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Box } from '@mui/material';
 import Sidebar from '@/components/Sidebar';
 import Overview from '@/components/Overview';
-import Menu from '@/components/Menu';
+import Menu from '@/components/Menus';
 import Order from '@/components/Order';
 import Staff from '@/components/Staff';
 import Settings from '@/components/Settings';

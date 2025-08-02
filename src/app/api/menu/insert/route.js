@@ -3,8 +3,8 @@ import { supabase } from '@/lib/supabaseClient';
 export async function POST(request) {
   try {
     const body = await request.json();
-    const { name, price, category, description, available ,veg} = body;
-    console.log('Incoming data:', { name, price, category, description, available , veg });
+    const { name, price, category, description, available ,veg , image_url } = body;
+    console.log('Incoming data:', { name, price, category, description, available , veg ,image_url  });
 
     if (!name || !description || !category || isNaN(price)) {
       console.error('Validation failed');
@@ -23,6 +23,7 @@ export async function POST(request) {
         description,
         available,
         veg,
+        image_url ,
         created_at: new Date().toISOString(),
       }]);
 

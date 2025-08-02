@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Backdrop,Box,Modal,Fade,Button,Typography,TextField,MenuItem,} from '@mui/material';
+import {Backdrop,Box,Modal,Fade,Button,Typography,TextField,MenuItem, FormControlLabel, Checkbox,} from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 
 const style = {
@@ -17,7 +17,7 @@ const style = {
 export default function TransitionsModal({ open, handleClose, onUserAdded }) {
   const [loading, setLoading] = React.useState(false);
 
-  const [form, setForm] = React.useState({name: '',email: '',role: '',status: '',});
+  const [form, setForm] = React.useState({name: '',email: '',role: '',status:true,});
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -39,7 +39,7 @@ export default function TransitionsModal({ open, handleClose, onUserAdded }) {
         console.log('User added:', data);
         if (onUserAdded) onUserAdded(); 
         handleClose(); 
-        setForm({ name: '', email: '', role: '', status: '' }); 
+        setForm({ name: '', email: '', role: '', status: true }); 
       } else {
         console.error('Add failed:', data.error);
       }
@@ -90,6 +90,15 @@ export default function TransitionsModal({ open, handleClose, onUserAdded }) {
             value={form.role}
             onChange={handleChange}
           />
+          <FormControlLabel control={
+                      <Checkbox
+                        name='status'
+                        checked={form.status}
+                        onChange={(e) =>
+              setForm({ ...form, status: e.target.checked })}/>
+                    }
+                    label="Active"
+                  />
           
 
           <Box display="flex" justifyContent="flex-end" mt={2} gap={2}>

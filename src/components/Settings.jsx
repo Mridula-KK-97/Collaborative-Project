@@ -27,7 +27,8 @@ const Setting = () => {
 const fetchUsers = async () => {
     const res = await fetch('/api/users/get');
     const data = await res.json();
-    setUsers(data);
+    setUsers(data.users); 
+
   };
 
   useEffect(() => {
@@ -48,7 +49,8 @@ const fetchUsers = async () => {
 
   if (res.ok) {
     console.log('Deleted:', result.message);
-    fetchUsers(); 
+    setUsers(prevUsers => prevUsers.filter(user => user.id !== id));
+ 
   } else {
     console.error('Delete failed:', result.error);
   }
@@ -138,7 +140,7 @@ const fetchUsers = async () => {
                       <TableCell>Name</TableCell>
                       <TableCell>Email</TableCell>
                       <TableCell>Role</TableCell>
-
+                      <TableCell>Status</TableCell>
                       <TableCell>Actions</TableCell>
                     </TableRow>
                   </TableHead>
@@ -149,6 +151,16 @@ const fetchUsers = async () => {
                         <TableCell>{user.email}</TableCell>
                         <TableCell>{user.role}</TableCell>
                         <TableCell>
+                         <Chip
+                          label={user.status === 'TRU' || user.status === true ? 'ACTIVE' : 'INACTIVE'}
+                          sx={{
+                            color: user.status? '#4caf50' : '#f44336',
+                            fontWeight: 'bold',
+                            mb: 1,
+                          }}
+                        />
+                          </TableCell>
+                        <TableCell>
                           <Button variant="text" color="primary">Edit</Button>
                           <Button variant="text" sx={{ color: '#ba000d' }} onClick={() => deleteUser(user.id)}>Delete</Button>
                         </TableCell>
@@ -158,7 +170,7 @@ const fetchUsers = async () => {
                   </TableBody>
                 </Table>
               </TableContainer>
-              <AddUsers open={open} handleClose={handleModal} />
+              <AddUsers open={open} handleClose={handleModal} onUserAdded={fetchUsers}  />
             </>
           )}
     

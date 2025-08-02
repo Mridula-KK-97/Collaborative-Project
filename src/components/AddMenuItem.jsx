@@ -18,7 +18,9 @@ export default function TransitionsModal({ open, handleClose ,onItemAdded }) {
 
   const [loading, setLoading] = React.useState(false);
 
-  const [form, setForm] = React.useState({name: '',price: '',category: '',description: '',available: true,veg:''});
+  const initialForm = {name: '',price: '',category: '',description: '',available: true,veg: false,image_url: '',};
+
+  const [form, setForm] = React.useState(initialForm);
 
 // ================ADD ITEM(MENU)=========================
   const handleAddItem = async (e) => {
@@ -28,6 +30,7 @@ export default function TransitionsModal({ open, handleClose ,onItemAdded }) {
       {
         alert('Please fill all fields correctly.');
         setLoading(false);
+        setForm(initialForm)
         return;
       }
 
@@ -62,6 +65,13 @@ export default function TransitionsModal({ open, handleClose ,onItemAdded }) {
   }
 };
 
+
+React.useEffect(() => {
+  if (open) {
+    setForm(initialForm); // ✅ Clear form every time modal is opened
+  }
+}, [open]);
+
 const handleChange = (e) => {
   const { name, type, checked, value } = e.target;
 
@@ -69,6 +79,18 @@ const handleChange = (e) => {
     ...prev,
     [name]: type === 'checkbox' ? checked : value,
   }));
+};
+
+// ======================image onchange===================
+const handleImageChange = (e) => {
+  const file = e.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setForm((prev) => ({ ...prev, image_url : reader.result }));
+    };
+    reader.readAsDataURL(file);
+  }
 };
 
 return (
@@ -90,12 +112,26 @@ return (
           <Typography variant="h6" gutterBottom>
             Add New Item
           </Typography>
+          <Typography variant="subtitle2" sx={{ mt: 2 }}>
+            Upload Image
+          </Typography>
+          <input type="file" accept="image/*" onChange={handleImageChange} />
+
+          {form.image && (
+            <Box mt={2}>
+              <Typography variant="caption">Preview:</Typography>
+              <img src={form.image} alt="Preview" style={{ width: '100%', maxHeight: 200, objectFit: 'cover' }} />
+            </Box>
+          )}
           <TextField label="Item Name" fullWidth margin="normal" name='name'  value={form.name} onChange={handleChange} />
           <TextField label="Price ($)" fullWidth margin="normal" name='price'  value={form.price} onChange={handleChange}/>
           <Select fullWidth defaultValue="" displayEmpty sx={{ mt: 2 }} name='category' value={form.category} onChange={handleChange}>
             <MenuItem value="">Select Category</MenuItem>
             <MenuItem value="starter">Starter</MenuItem>
             <MenuItem value="main">Main</MenuItem>
+            <MenuItem value="pizza">Pizza</MenuItem>
+            <MenuItem value="salad">Salad</MenuItem>
+            <MenuItem value="drinks">Drinks</MenuItem>
           </Select>
           <TextField
             label="Description"

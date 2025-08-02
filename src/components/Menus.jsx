@@ -10,25 +10,29 @@ import dynamic from 'next/dynamic';
 const AddMenuItem = dynamic(() => import('./AddMenuItem'), { ssr: false });
 
 const Menu = () => {
-  const [selected, setSelected] = useState('All Categories');
+  const [selected, setSelected] = useState('all');
   const [search, setSearch] = useState('');
   const [open, setOpen] = useState(false);
   const [menuItems, setMenuItems] = useState([]);
 
-  const categories = ['All Categories', 'Pizza', 'Salad', 'Dessert', 'Main Course'];
-
+const categories = [
+  { label: 'All Categories', value: 'all' },
+  { label: 'Pizza', value: 'pizza' },
+  { label: 'Salad', value: 'salad' },
+  { label: 'Dessert', value: 'dessert' },
+  { label: 'Main Course', value: 'main' }
+];
   const handleModal = () => {
     setOpen(prev => !prev);
   };
 
   const filteredItems = menuItems.filter((item) => {
-    const matchCategory = selected === 'All Categories' || item.category?.toLowerCase() === selected.toLowerCase();
-    const matchSearch = item.name.toLowerCase().includes(search.toLowerCase());
-    return matchCategory && matchSearch;
-  });
+  const matchCategory = selected === 'all' || item.category?.toLowerCase() === selected;
+  const matchSearch = item.name.toLowerCase().includes(search.toLowerCase());
+  return matchCategory && matchSearch;
+});
 
-
-  // ============================VIEW ITEM(MENU)=========================
+// ============================VIEW ITEM(MENU)=========================
   const fetchItems = async () => {
     try {
       const res = await fetch('/api/menu/get');
@@ -44,14 +48,20 @@ const Menu = () => {
     fetchItems();
   }, []);
 
-  // ============================DELETE ITEM(MENU)==========================
-  const handleDelete = async (id) => {
+// ============================DELETE ITEM(MENU)==========================
+const handleDelete = async (id) => {
     const res = await fetch(`/api/menu/delete?id=${id}`, {
       method: 'DELETE',
     });
-    if (res.ok) fetchItems();
+    if (res.ok) 
+      fetchItems();
     else console.error('Delete failed');
-  };
+};
+
+// =============================EDIT ITEM(MENU)=============================
+const handleEdit = () =>{
+  
+}
 
   return (
     <Box sx={{ p: { xs: 2, sm: 3 } }}>
@@ -97,29 +107,27 @@ const Menu = () => {
           sx={{ minWidth: { xs: '100%', sm: 250 } }}
         />
 
-        <TextField
-          select
-          size="small"
-          value={selected}
-          onChange={(e) => setSelected(e.target.value)}
-          fullWidth
-          sx={{ minWidth: { xs: '100%', sm: 200 } }}
-        >
+        <TextField select size="small" value={selected} onChange={(e) => setSelected(e.target.value)} fullWidth sx={{ minWidth: { xs: '100%', sm: 200 } }}>
           {categories.map((cat) => (
-            <MenuItem key={cat} value={cat}>{cat}</MenuItem>
+            <MenuItem key={cat.value} value={cat.value}>
+              {cat.label}
+            </MenuItem>
           ))}
         </TextField>
-      </Box>
 
+      </Box>
       <Grid container spacing={2}>
         {filteredItems.map((item, index) => (
           <Grid item xs={12} sm={6} md={4} key={index}>
             <Card variant="outlined" sx={{ borderRadius: 3, minWidth: 390}}>
               <CardContent>
+                <Box display="flex" justifyContent="center">
+                     <img src={item.image_url} alt={item.name} style={{ width: '200px', height: '100px', objectFit: 'cover' }}/>
+                </Box>
                 <Box display="flex" justifyContent="space-between" alignItems="center" mb={1}>
                   <Typography variant="h6" fontWeight="bold">{item.name}</Typography>
                   <Box>
-                    <IconButton size="small"><EditIcon fontSize="small" /></IconButton>
+                    <IconButton size="small"><EditIcon fontSize="small" onClick={() => handleEdit(item.id)}/></IconButton>
                     <IconButton size="small" onClick={() => handleDelete(item.id)}><DeleteIcon fontSize="small" /></IconButton>
                   </Box>
                 </Box>

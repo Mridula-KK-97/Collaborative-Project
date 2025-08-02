@@ -7,3 +7,4 @@ create table menu_items (
   available boolean default true,
   created_at timestamp with time zone default timezone('utc'::text, now())
 );
+

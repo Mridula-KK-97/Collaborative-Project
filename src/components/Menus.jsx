@@ -14,6 +14,7 @@ const Menu = () => {
   const [search, setSearch] = useState('');
   const [open, setOpen] = useState(false);
   const [menuItems, setMenuItems] = useState([]);
+  const [editingItem, setEditingItem] = useState(null);
 
 const categories = [
   { label: 'All Categories', value: 'all' },
@@ -22,9 +23,13 @@ const categories = [
   { label: 'Dessert', value: 'dessert' },
   { label: 'Main Course', value: 'main' }
 ];
+
+// ====================Add new item===============================
   const handleModal = () => {
     setOpen(prev => !prev);
   };
+
+// ======================Filter item in search box=======================
 
   const filteredItems = menuItems.filter((item) => {
   const matchCategory = selected === 'all' || item.category?.toLowerCase() === selected;
@@ -59,11 +64,13 @@ const handleDelete = async (id) => {
 };
 
 // =============================EDIT ITEM(MENU)=============================
-const handleEdit = () =>{
-  
-}
+const handleModals = (item) => {
+  setEditingItem(item);  
+  setOpen(true);         
+};
 
-  return (
+
+return (
     <Box sx={{ p: { xs: 2, sm: 3 } }}>
       <Box display="flex" justifyContent="space-between" alignItems="center" flexWrap="wrap" mb={3}>
         <Typography variant="h5" fontWeight="bold">Menu Management</Typography>
@@ -127,7 +134,7 @@ const handleEdit = () =>{
                 <Box display="flex" justifyContent="space-between" alignItems="center" mb={1}>
                   <Typography variant="h6" fontWeight="bold">{item.name}</Typography>
                   <Box>
-                    <IconButton size="small"><EditIcon fontSize="small" onClick={() => handleEdit(item.id)}/></IconButton>
+                    <IconButton size="small"><EditIcon fontSize="small" onClick={() => handleModals(item)}/></IconButton>
                     <IconButton size="small" onClick={() => handleDelete(item.id)}><DeleteIcon fontSize="small" /></IconButton>
                   </Box>
                 </Box>
@@ -164,6 +171,7 @@ const handleEdit = () =>{
       </Grid>
 
       <AddMenuItem open={open} handleClose={handleModal} onItemAdded={fetchItems} />
+      
     </Box>
   );
 };

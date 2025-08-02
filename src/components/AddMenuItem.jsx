@@ -14,7 +14,7 @@ const style = {
   p: 4,
 };
 
-export default function TransitionsModal({ open, handleClose ,onItemAdded }) {
+export default function TransitionsModal({ open, handleClose ,onItemAdded ,editingItem, setEditingItem }) {
 
   const [loading, setLoading] = React.useState(false);
 
@@ -67,10 +67,21 @@ export default function TransitionsModal({ open, handleClose ,onItemAdded }) {
 
 
 React.useEffect(() => {
-  if (open) {
-    setForm(initialForm); // ✅ Clear form every time modal is opened
+  if (open && editingItem) {
+    setForm({
+      name: editingItem.name || '',
+      price: editingItem.price || '',
+      category: editingItem.category || '',
+      description: editingItem.description || '',
+      available: editingItem.available === true || editingItem.available === 'TRU',
+      veg: editingItem.veg === true || editingItem.veg === 'TRU',
+      image_url: editingItem.image_url || '',
+    });
+  } else if (open && !editingItem) {
+    setForm(initialForm); 
   }
-}, [open]);
+}, [open, editingItem]);
+
 
 const handleChange = (e) => {
   const { name, type, checked, value } = e.target;
@@ -168,7 +179,7 @@ return (
               variant="contained"
               sx={{backgroundColor:'#6fbf73',color:'black'}}
             >
-              Add Item
+            {editingItem ? 'Update Item' : 'Add Item'}
             </LoadingButton>
           </Box>
         </Box>

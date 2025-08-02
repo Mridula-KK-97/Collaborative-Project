@@ -6,6 +6,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
+import EditItemModal from './EditMenuItem';
 
 const AddMenuItem = dynamic(() => import('./AddMenuItem'), { ssr: false });
 
@@ -14,7 +15,8 @@ const Menu = () => {
   const [search, setSearch] = useState('');
   const [open, setOpen] = useState(false);
   const [menuItems, setMenuItems] = useState([]);
-  const [editingItem, setEditingItem] = useState(null);
+  const [isEditOpen, setIsEditOpen] = useState(false); // For Edit
+const [selectedItem, setSelectedItem] = useState(null); // Currently edited ite
 
 const categories = [
   { label: 'All Categories', value: 'all' },
@@ -64,9 +66,9 @@ const handleDelete = async (id) => {
 };
 
 // =============================EDIT ITEM(MENU)=============================
-const handleModals = (item) => {
-  setEditingItem(item);  
-  setOpen(true);         
+const handleEditModal = (item) => {
+  setSelectedItem(item);
+  setIsEditOpen(true);
 };
 
 
@@ -126,7 +128,7 @@ return (
       <Grid container spacing={2}>
         {filteredItems.map((item, index) => (
           <Grid item xs={12} sm={6} md={4} key={index}>
-            <Card variant="outlined" sx={{ borderRadius: 3, minWidth: 390}}>
+            <Card variant="outlined" sx={{ borderRadius: 3, minWidth: 370}}>
               <CardContent>
                 <Box display="flex" justifyContent="center">
                      <img src={item.image_url} alt={item.name} style={{ width: '200px', height: '100px', objectFit: 'cover' }}/>
@@ -134,7 +136,7 @@ return (
                 <Box display="flex" justifyContent="space-between" alignItems="center" mb={1}>
                   <Typography variant="h6" fontWeight="bold">{item.name}</Typography>
                   <Box>
-                    <IconButton size="small"><EditIcon fontSize="small" onClick={() => handleModals(item)}/></IconButton>
+                    <IconButton size="small"  onClick={() => handleEditModal(item)}><EditIcon fontSize="small" /></IconButton>
                     <IconButton size="small" onClick={() => handleDelete(item.id)}><DeleteIcon fontSize="small" /></IconButton>
                   </Box>
                 </Box>
@@ -171,7 +173,7 @@ return (
       </Grid>
 
       <AddMenuItem open={open} handleClose={handleModal} onItemAdded={fetchItems} />
-      
+      <EditItemModal open={isEditOpen} handleClose={() => setIsEditOpen(false)} itemToEdit={selectedItem} onItemUpdated={fetchItems}/>
     </Box>
   );
 };

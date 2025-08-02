@@ -14,7 +14,7 @@ const style = {
   p: 4,
 };
 
-export default function TransitionsModal({ open, handleClose ,onItemAdded ,editingItem, setEditingItem }) {
+export default function TransitionsModal({ open, handleClose ,onItemAdded }) {
 
   const [loading, setLoading] = React.useState(false);
 
@@ -66,23 +66,6 @@ export default function TransitionsModal({ open, handleClose ,onItemAdded ,editi
 };
 
 
-React.useEffect(() => {
-  if (open && editingItem) {
-    setForm({
-      name: editingItem.name || '',
-      price: editingItem.price || '',
-      category: editingItem.category || '',
-      description: editingItem.description || '',
-      available: editingItem.available === true || editingItem.available === 'TRU',
-      veg: editingItem.veg === true || editingItem.veg === 'TRU',
-      image_url: editingItem.image_url || '',
-    });
-  } else if (open && !editingItem) {
-    setForm(initialForm); 
-  }
-}, [open, editingItem]);
-
-
 const handleChange = (e) => {
   const { name, type, checked, value } = e.target;
 
@@ -131,7 +114,7 @@ return (
           {form.image && (
             <Box mt={2}>
               <Typography variant="caption">Preview:</Typography>
-              <img src={form.image} alt="Preview" style={{ width: '100%', maxHeight: 200, objectFit: 'cover' }} />
+              <img src={form.image_url} alt="Preview" style={{ width: '100%', maxHeight: 200, objectFit: 'cover' }} />
             </Box>
           )}
           <TextField label="Item Name" fullWidth margin="normal" name='name'  value={form.name} onChange={handleChange} />
@@ -179,7 +162,7 @@ return (
               variant="contained"
               sx={{backgroundColor:'#6fbf73',color:'black'}}
             >
-            {editingItem ? 'Update Item' : 'Add Item'}
+            ADD ITEM
             </LoadingButton>
           </Box>
         </Box>

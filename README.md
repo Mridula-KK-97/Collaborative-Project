@@ -56,4 +56,4 @@ To streamline restaurant operations by eliminating paper menus and manual order 
 
 ---
 
-## 📁 Folder Structure (example)
+

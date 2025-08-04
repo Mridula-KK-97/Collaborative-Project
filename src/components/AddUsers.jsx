@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Backdrop,Box,Modal,Fade,Button,Typography,TextField,MenuItem, FormControlLabel, Checkbox,} from '@mui/material';
+import {Backdrop,Box,Modal,Fade,Button,Typography,TextField,FormControlLabel, Checkbox,} from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 
 const style = {
@@ -17,14 +17,19 @@ const style = {
 export default function TransitionsModal({ open, handleClose, onUserAdded }) {
   const [loading, setLoading] = React.useState(false);
 
-  const [form, setForm] = React.useState({name: '',email: '',role: '',status:true,});
+  const [form, setForm] = React.useState({
+    name: '',
+    email: '',
+    role: '',
+    status: true,
+    date_of_joining: '',
+  });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-// ========================USER ADD======================
   const handleAddUser = async () => {
     setLoading(true);
     try {
@@ -37,9 +42,15 @@ export default function TransitionsModal({ open, handleClose, onUserAdded }) {
       const data = await res.json();
       if (res.ok) {
         console.log('User added:', data);
-        if (onUserAdded) onUserAdded(); 
-        handleClose(); 
-        setForm({ name: '', email: '', role: '', status: true }); 
+        if (onUserAdded) onUserAdded();
+        handleClose();
+        setForm({
+          name: '',
+          email: '',
+          role: '',
+          status: true,
+          date_of_joining: '',
+        });
       } else {
         console.error('Add failed:', data.error);
       }
@@ -56,9 +67,7 @@ export default function TransitionsModal({ open, handleClose, onUserAdded }) {
       onClose={handleClose}
       closeAfterTransition
       slots={{ backdrop: Backdrop }}
-      slotProps={{
-        backdrop: { timeout: 500 },
-      }}
+      slotProps={{ backdrop: { timeout: 500 } }}
     >
       <Fade in={open}>
         <Box sx={style}>
@@ -74,6 +83,7 @@ export default function TransitionsModal({ open, handleClose, onUserAdded }) {
             value={form.name}
             onChange={handleChange}
           />
+
           <TextField
             label="Email"
             fullWidth
@@ -82,6 +92,7 @@ export default function TransitionsModal({ open, handleClose, onUserAdded }) {
             value={form.email}
             onChange={handleChange}
           />
+
           <TextField
             label="Role"
             fullWidth
@@ -90,16 +101,33 @@ export default function TransitionsModal({ open, handleClose, onUserAdded }) {
             value={form.role}
             onChange={handleChange}
           />
-          <FormControlLabel control={
-                      <Checkbox
-                        name='status'
-                        checked={form.status}
-                        onChange={(e) =>
-              setForm({ ...form, status: e.target.checked })}/>
-                    }
-                    label="Active"
-                  />
-          
+
+          <FormControlLabel
+            control={
+              <Checkbox
+                name="status"
+                checked={form.status}
+                onChange={(e) =>
+                  setForm((prev) => ({
+                    ...prev,
+                    status: e.target.checked,
+                  }))
+                }
+              />
+            }
+            label="Active"
+          />
+
+          <TextField
+            label="Date of Joining"
+            fullWidth
+            margin="normal"
+            name="date_of_joining"
+            type="date"
+            value={form.date_of_joining}
+            onChange={handleChange}
+            InputLabelProps={{ shrink: true }}
+          />
 
           <Box display="flex" justifyContent="flex-end" mt={2} gap={2}>
             <Button

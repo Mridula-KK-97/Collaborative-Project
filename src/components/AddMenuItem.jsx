@@ -66,12 +66,6 @@ export default function TransitionsModal({ open, handleClose ,onItemAdded }) {
 };
 
 
-React.useEffect(() => {
-  if (open) {
-    setForm(initialForm); // ✅ Clear form every time modal is opened
-  }
-}, [open]);
-
 const handleChange = (e) => {
   const { name, type, checked, value } = e.target;
 
@@ -120,7 +114,7 @@ return (
           {form.image && (
             <Box mt={2}>
               <Typography variant="caption">Preview:</Typography>
-              <img src={form.image} alt="Preview" style={{ width: '100%', maxHeight: 200, objectFit: 'cover' }} />
+              <img src={form.image_url} alt="Preview" style={{ width: '100%', maxHeight: 200, objectFit: 'cover' }} />
             </Box>
           )}
           <TextField label="Item Name" fullWidth margin="normal" name='name'  value={form.name} onChange={handleChange} />
@@ -132,6 +126,7 @@ return (
             <MenuItem value="pizza">Pizza</MenuItem>
             <MenuItem value="salad">Salad</MenuItem>
             <MenuItem value="drinks">Drinks</MenuItem>
+            <MenuItem value="dessert">Dessert</MenuItem>
           </Select>
           <TextField
             label="Description"
@@ -168,7 +163,7 @@ return (
               variant="contained"
               sx={{backgroundColor:'#6fbf73',color:'black'}}
             >
-              Add Item
+            ADD ITEM
             </LoadingButton>
           </Box>
         </Box>

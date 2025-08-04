@@ -118,6 +118,8 @@ const Staff = () => {
               maxWidth: 360,
               p: 2,
               borderRadius: 3,
+              backgroundColor: '#2d2d2d', 
+              color: '#ffffff',  
               boxShadow: 3,
               display: 'flex',
               flexDirection: 'column',

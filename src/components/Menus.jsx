@@ -30,7 +30,7 @@ const Menu = () => {
 
   const filteredItems = menuItems.filter((item) => {
     const matchCategory = selected === 'all' || item.category?.toLowerCase() === selected;
-    const matchSearch = item.name.toLowerCase().includes(search.toLowerCase());
+const matchSearch = item.name?.toLowerCase().includes(search.toLowerCase());
     return matchCategory && matchSearch;
   });
 

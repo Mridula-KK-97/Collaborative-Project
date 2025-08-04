@@ -1,10 +1,12 @@
-import Menu from '@/components/Menus'
+
+
+import UserMenu from '@/components/Menu'
 import React from 'react'
 
 const page = () => {
   return (
     <div>
-        <Menu />
+      <UserMenu />
     </div>
   )
 }

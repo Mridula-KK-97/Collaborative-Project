@@ -1,15 +1,24 @@
-"use client"
-import React from 'react'
+"use client";
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { FaUtensils } from 'react-icons/fa';
 
-
 const UserwelcomePage = () => {
-    const router = useRouter();
+  const router = useRouter();
 
-    const handleContinue = () => {
-        router.push('/menu'); 
-    };
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const tableNo = urlParams.get('table_no');
+    if (tableNo) {
+      localStorage.setItem('table_no', tableNo);
+    } else {
+      alert("❌ Table number not found in URL.");
+    }
+  }, []);
+
+  const handleContinue = () => {
+    router.push('/menu');
+  };
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-pink-50 to-yellow-50 p-4">
@@ -28,7 +37,7 @@ const UserwelcomePage = () => {
           </h2>
           <p className="text-gray-500 mb-4">your favourite dishes !!</p>
           <img
-            src="/qrImage.png"
+            src="/qr-code.png"
             alt="QR CODE"
             className="mx-auto w-40 h-40 bg-green-100 rounded-xl p-4 mb-4"
           />
@@ -42,7 +51,7 @@ const UserwelcomePage = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default UserwelcomePage
+export default UserwelcomePage;

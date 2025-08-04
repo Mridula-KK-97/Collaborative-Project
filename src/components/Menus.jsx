@@ -15,31 +15,26 @@ const Menu = () => {
   const [search, setSearch] = useState('');
   const [open, setOpen] = useState(false);
   const [menuItems, setMenuItems] = useState([]);
-  const [isEditOpen, setIsEditOpen] = useState(false); // For Edit
-const [selectedItem, setSelectedItem] = useState(null); // Currently edited ite
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
 
-const categories = [
-  { label: 'All Categories', value: 'all' },
-  { label: 'Pizza', value: 'pizza' },
-  { label: 'Salad', value: 'salad' },
-  { label: 'Dessert', value: 'dessert' },
-  { label: 'Main Course', value: 'main' }
-];
+  const categories = [
+    { label: 'All Categories', value: 'all' },
+    { label: 'Pizza', value: 'pizza' },
+    { label: 'Salad', value: 'salad' },
+    { label: 'Dessert', value: 'dessert' },
+    { label: 'Main Course', value: 'main' }
+  ];
 
-// ====================Add new item===============================
-  const handleModal = () => {
-    setOpen(prev => !prev);
-  };
-
-// ======================Filter item in search box=======================
+  const handleModal = () => setOpen((prev) => !prev);
 
   const filteredItems = menuItems.filter((item) => {
-  const matchCategory = selected === 'all' || item.category?.toLowerCase() === selected;
-  const matchSearch = item.name.toLowerCase().includes(search.toLowerCase());
-  return matchCategory && matchSearch;
-});
+    const matchCategory = selected === 'all' || item.category?.toLowerCase() === selected;
+    const matchSearch = item.name.toLowerCase().includes(search.toLowerCase());
+    return matchCategory && matchSearch;
+  });
 
-// ============================VIEW ITEM(MENU)=========================
+// ==============================VIEW ITEM(MENU)==========================================
   const fetchItems = async () => {
     try {
       const res = await fetch('/api/menu/get');
@@ -55,91 +50,189 @@ const categories = [
     fetchItems();
   }, []);
 
-// ============================DELETE ITEM(MENU)==========================
-const handleDelete = async (id) => {
+// =================================DELETE ITEM(MENU)========================================
+  const handleDelete = async (id) => {
     const res = await fetch(`/api/menu/delete?id=${id}`, {
       method: 'DELETE',
     });
-    if (res.ok) 
-      fetchItems();
+    if (res.ok) fetchItems();
     else console.error('Delete failed');
-};
+  };
 
-// =============================EDIT ITEM(MENU)=============================
-const handleEditModal = (item) => {
-  setSelectedItem(item);
-  setIsEditOpen(true);
-};
+// ====================================EDIT ITEM(MENU)========================================
+  const handleEditModal = (item) => {
+    setSelectedItem(item);
+    setIsEditOpen(true);
+  };
 
-
-return (
+  return (
     <Box sx={{ p: { xs: 2, sm: 3 } }}>
       <Box display="flex" justifyContent="space-between" alignItems="center" flexWrap="wrap" mb={3}>
-        <Typography variant="h5" fontWeight="bold">Menu Management</Typography>
+        <Typography variant="h5" fontWeight="bold" color="white">
+          Menu Management
+        </Typography>
         <Button
           variant="contained"
           startIcon={<AddIcon />}
           onClick={handleModal}
-          sx={{ backgroundColor: '#6fbf73', color: 'black', mt: { xs: 2, sm: 0 } }}
+          sx={{
+            backgroundColor: '#1D4ED8',
+            color: 'white',
+            mt: { xs: 2, sm: 0 },
+            '&:hover': { backgroundColor: '#1E40AF' },
+          }}
         >
           Add Item
         </Button>
       </Box>
-
       <Box
         display="flex"
-        gap={2}
         flexWrap="wrap"
-        alignItems="stretch"
+        gap={2}
         mb={4}
         sx={{
           p: 2,
           border: '1px solid #ddd',
           borderRadius: 2,
-          backgroundColor: '#fafafa',
         }}
       >
-        <TextField
-          placeholder="Search menu items..."
-          variant="outlined"
+       <TextField
+        placeholder="Search menu items..."
+        variant="outlined"
+        size="small"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <SearchIcon sx={{ color: 'white' }} />
+            </InputAdornment>
+          ),
+          sx: {
+            input: {
+              color: 'white',               
+              '::placeholder': {
+                color: 'white',              
+                opacity: 1,
+              },
+            },
+          },
+        }}
+        sx={{
+          flex: 1,
+          minWidth: '200px',
+          '& .MuiOutlinedInput-root': {
+            '& fieldset': {
+              borderColor: 'white',
+            },
+            '&:hover fieldset': {
+              borderColor: 'white',
+            },
+            '&.Mui-focused fieldset': {
+              borderColor: 'white',
+            },
+          },
+        }}
+      />
+      <TextField
+          select
           size="small"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            ),
+          value={selected}
+          onChange={(e) => setSelected(e.target.value)}
+          sx={{
+            minWidth: '180px',
+            color: 'white',
+            '& .MuiOutlinedInput-root': {
+              color: 'white',
+              '& fieldset': {
+                borderColor: 'white',
+              },
+              '&:hover fieldset': {
+                borderColor: 'white',
+              },
+              '&.Mui-focused fieldset': {
+                borderColor: 'white',
+              },
+            },
+            '& .MuiSelect-icon': {
+              color: 'white', 
+            },
           }}
-          fullWidth
-          sx={{ minWidth: { xs: '100%', sm: 250 } }}
-        />
-
-        <TextField select size="small" value={selected} onChange={(e) => setSelected(e.target.value)} fullWidth sx={{ minWidth: { xs: '100%', sm: 200 } }}>
+          InputProps={{
+            sx: {
+              input: {
+                color: 'white',
+              },
+            },
+          }}
+          SelectProps={{
+            MenuProps: {
+              PaperProps: {
+                sx: {
+                  bgcolor: '#2c2c2c', 
+                  color: 'white',    
+                },
+              },
+            },
+          }}
+        >
           {categories.map((cat) => (
             <MenuItem key={cat.value} value={cat.value}>
               {cat.label}
             </MenuItem>
           ))}
-        </TextField>
+      </TextField>
 
       </Box>
-      <Grid container spacing={2}>
+      <Grid container spacing={2} justifyContent="center">
         {filteredItems.map((item, index) => (
-          <Grid item xs={12} sm={6} md={4} key={index}>
-            <Card variant="outlined" sx={{ borderRadius: 3, minWidth: 370}}>
+          <Grid item key={index}>
+            <Card
+              variant="outlined"
+              sx={{
+                borderRadius: 3,
+                height: '100%',
+                width: { xs: '100%', sm: 300, md: 360 }, 
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+              }}
+            >
               <CardContent>
-                <Box display="flex" justifyContent="center">
-                     <img src={item.image_url} alt={item.name} style={{ width: '200px', height: '100px', objectFit: 'cover' }}/>
+               <Box
+                  display="flex"
+                  justifyContent="center"
+                  alignItems="center"
+                  mb={2}
+                  sx={{
+                    width: '100%',
+                    height: 180,
+                    overflow: 'hidden',
+                    borderRadius: 1,
+                  }}
+                >
+                  <img
+                    src={item.image_url}
+                    alt={item.name}
+                    style={{
+                      width: '230px',
+                      height: '180px',
+                      borderRadius: '8px',
+                    }}
+                  />
                 </Box>
                 <Box display="flex" justifyContent="space-between" alignItems="center" mb={1}>
                   <Typography variant="h6" fontWeight="bold">{item.name}</Typography>
                   <Box>
-                    <IconButton size="small"  onClick={() => handleEditModal(item)}><EditIcon fontSize="small" /></IconButton>
-                    <IconButton size="small" onClick={() => handleDelete(item.id)}><DeleteIcon fontSize="small" /></IconButton>
+                    <IconButton size="small" onClick={() => handleEditModal(item)}>
+                      <EditIcon fontSize="small" />
+                    </IconButton>
+                    <IconButton size="small" onClick={() => handleDelete(item.id)}>
+                      <DeleteIcon fontSize="small" />
+                    </IconButton>
                   </Box>
                 </Box>
+
                 <Chip
                   label={item.veg === 'TRU' || item.veg === true ? '🟢 veg' : '🔴 non-veg'}
                   sx={{
@@ -150,6 +243,7 @@ return (
                 />
                 <Typography variant="body2" color="text.secondary">{item.category}</Typography>
                 <Typography variant="body2" mt={1}>{item.description}</Typography>
+
                 <Box mt={2} display="flex" justifyContent="space-between" alignItems="center">
                   <Typography variant="subtitle1" fontWeight="bold">${item.price}</Typography>
                   <Chip
@@ -171,9 +265,13 @@ return (
           </Box>
         )}
       </Grid>
-
       <AddMenuItem open={open} handleClose={handleModal} onItemAdded={fetchItems} />
-      <EditItemModal open={isEditOpen} handleClose={() => setIsEditOpen(false)} itemToEdit={selectedItem} onItemUpdated={fetchItems}/>
+      <EditItemModal
+        open={isEditOpen}
+        handleClose={() => setIsEditOpen(false)}
+        itemToEdit={selectedItem}
+        onItemUpdated={fetchItems}
+      />
     </Box>
   );
 };

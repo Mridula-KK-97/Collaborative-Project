@@ -35,18 +35,68 @@ const Staff = () => {
   return (
     <Box sx={{ mt: 3, mb: 8, px: { xs: 2, sm: 4 } }}>
       <Box display="flex" justifyContent="space-between" alignItems="center" flexWrap="wrap" mb={3}>
-        <Typography variant="h5" fontWeight="bold">Staff Management</Typography>
+        <Typography variant="h5" fontWeight="bold"  color='white'>Staff Management</Typography>
       </Box>
 
       <Box display="flex" flexWrap="wrap" gap={2} mb={4}>
         <TextField
+            fullWidth
+            placeholder="Search staff members..."
+            value={searchTerm}
+            onChange={handleSearch}
+            sx={{
+              minWidth: { xs: '100%', sm: 300 },
+              '& .MuiInputBase-input': {
+                color: 'white', 
+              },
+              '& .MuiInputLabel-root': {
+                color: 'white', 
+              },
+              '& .MuiOutlinedInput-root': {
+                '& fieldset': {
+                  borderColor: 'white', 
+                },
+                '&:hover fieldset': {
+                  borderColor: 'white', 
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: 'white', 
+                },
+              },
+              '& input::placeholder': {
+                color: 'white', 
+                opacity: 1,
+              },
+            }}
+          />
+
+       <FormControl
           fullWidth
-          placeholder="Search staff members..."
-          value={searchTerm}
-          onChange={handleSearch}
-          sx={{ minWidth: { xs: '100%', sm: 300 } }}
-        />
-        <FormControl fullWidth sx={{ minWidth: { xs: '100%', sm: 200 } }}>
+          sx={{
+            minWidth: { xs: '100%', sm: 200 },
+            '& .MuiInputLabel-root': {
+              color: 'white',
+            },
+            '& .MuiInputLabel-root.Mui-focused': {
+              color: 'white',
+            },
+            '& .MuiOutlinedInput-root': {
+              color: 'white', 
+              '& fieldset': {
+                borderColor: 'white',
+              },
+              '&:hover fieldset': {
+                borderColor: 'white',
+              },
+              '&.Mui-focused fieldset': {
+                borderColor: 'white',
+              },
+            },
+            '& .MuiSvgIcon-root': {
+              color: 'white', 
+            },
+          }}
+        >
           <InputLabel>All Departments</InputLabel>
           <Select
             value={departmentFilter}
@@ -59,7 +109,6 @@ const Staff = () => {
           </Select>
         </FormControl>
       </Box>
-
       <Box display="flex" flexWrap="wrap" gap={3} justifyContent="center">
         {filteredStaff.map((staff, index) => (
           <Card
@@ -77,7 +126,7 @@ const Staff = () => {
           >
             <Box display="flex" alignItems="center" justifyContent="space-between">
               <Box display="flex" alignItems="center" gap={2}>
-                <Avatar sx={{ backgroundColor: '#6fbf73' }}>{staff.name[0]}</Avatar>
+                <Avatar sx={{ backgroundColor: ' #1D4ED8' }}>{staff.name[0]}</Avatar>
                 <Box>
                   <Typography fontWeight="bold">{staff.name}</Typography>
                   <Typography variant="body2" color="text.secondary">

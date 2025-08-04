@@ -3,9 +3,9 @@ import { supabase } from '@/lib/supabaseClient'
 export async function POST(request) {
   try {
     const body = await request.json()
-    const { name, email, role, status } = body
+    const { name, email, role, status ,date_of_joining } = body
 
-    if (!name || !email || !role || typeof status !== 'boolean') {
+    if (!name || !email || !role || typeof status !== 'boolean' || !date_of_joining) {
       return new Response(JSON.stringify({ error: 'Missing fields' }), {
         status: 400,
       });
@@ -13,7 +13,7 @@ export async function POST(request) {
 
     const { data, error } = await supabase
       .from('users')
-      .insert([{ name, email, role, status }])
+      .insert([{ name, email, role, status ,date_of_joining}])
 
     if (error) {
       console.error(error)

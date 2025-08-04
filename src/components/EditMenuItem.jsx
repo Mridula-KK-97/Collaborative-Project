@@ -90,20 +90,18 @@ const handleUpdateItem = async (e) => {
       <Fade in={open}>
         <Box sx={style}>
           <Typography variant="h6" gutterBottom>Edit Item</Typography>
-
           <Typography variant="subtitle2" sx={{ mt: 2 }}>Upload Image</Typography>
           <input type="file" accept="image/*" onChange={handleImageChange} />
-
           {form.image_url?.trim() ? (
-  <Box mt={2}>
-    <Typography variant="caption">Preview:</Typography>
-    <img
-      src={form.image_url}
-      alt="Preview"
-      style={{ width: '100%', maxHeight: 200, objectFit: 'cover' }}
-    />
-  </Box>
-) : null}
+            <Box mt={2}>
+              <Typography variant="caption">Preview:</Typography>
+              <img
+                src={form.image_url}
+                alt="Preview"
+                style={{ width: '100%', maxHeight: 200, objectFit: 'cover' }}
+              />
+            </Box>
+          ) : null}
           <TextField
             label="Item Name"
             fullWidth
@@ -134,6 +132,7 @@ const handleUpdateItem = async (e) => {
             <MenuItem value="pizza">Pizza</MenuItem>
             <MenuItem value="salad">Salad</MenuItem>
             <MenuItem value="drinks">Drinks</MenuItem>
+            <MenuItem value="dessert">Dessert</MenuItem>
           </Select>
           <TextField
             label="Description"
@@ -165,7 +164,6 @@ const handleUpdateItem = async (e) => {
             }
             label="Available for order"
           />
-
           <Box display="flex" justifyContent="flex-end" mt={2} gap={2}>
             <Button variant="outlined" onClick={handleClose} sx={{ borderColor: '#6fbf73', color: 'black' }}>
               Cancel

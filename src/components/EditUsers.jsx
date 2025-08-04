@@ -17,7 +17,7 @@ const style = {
 export default function TransitionsModal({ open, handleClose, onUserAdded }) {
   const [loading, setLoading] = React.useState(false);
 
-  const [form, setForm] = React.useState({name: '',email: '',role: '',status:true,});
+  const [form, setForm] = React.useState({name: '',email: '',role: '',status:true});
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -65,56 +65,16 @@ export default function TransitionsModal({ open, handleClose, onUserAdded }) {
           <Typography variant="h6" gutterBottom>
             Add User
           </Typography>
-
-          <TextField
-            label="Name"
-            fullWidth
-            margin="normal"
-            name="name"
-            value={form.name}
-            onChange={handleChange}
-          />
-          <TextField
-            label="Email"
-            fullWidth
-            margin="normal"
-            name="email"
-            value={form.email}
-            onChange={handleChange}
-          />
-          <TextField
-            label="Role"
-            fullWidth
-            margin="normal"
-            name="role"
-            value={form.role}
-            onChange={handleChange}
-          />
+          <TextField label="Name" fullWidth margin="normal" name="name" value={form.name} onChange={handleChange}/>
+          <TextField label="Email" fullWidth margin="normal" name="email" value={form.email} onChange={handleChange}/>
+          <TextField label="Role" fullWidth margin="normal" name="role" value={form.role} onChange={handleChange}/>
           <FormControlLabel control={
-                      <Checkbox
-                        name='status'
-                        checked={form.status}
-                        onChange={(e) =>
-              setForm({ ...form, status: e.target.checked })}/>
-                    }
-                    label="Active"
-                  />
-          
-
+            <Checkbox name='status' checked={form.status} onChange={(e) => setForm({ ...form, status: e.target.checked })}/>} label="Active"/>
           <Box display="flex" justifyContent="flex-end" mt={2} gap={2}>
-            <Button
-              variant="outlined"
-              onClick={handleClose}
-              sx={{ borderColor: '#6fbf73', color: 'black' }}
-            >
+            <Button variant="outlined" onClick={handleClose} sx={{ borderColor: '#6fbf73', color: 'black' }}>
               Cancel
             </Button>
-            <LoadingButton
-              onClick={handleAddUser}
-              loading={loading}
-              variant="contained"
-              sx={{ backgroundColor: '#6fbf73', color: 'black' }}
-            >
+            <LoadingButton onClick={handleAddUser} loading={loading} variant="contained" sx={{ backgroundColor: '#6fbf73', color: 'black' }}>
               Edit User
             </LoadingButton>
           </Box>

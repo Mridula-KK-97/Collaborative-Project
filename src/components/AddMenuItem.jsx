@@ -126,6 +126,7 @@ return (
             <MenuItem value="pizza">Pizza</MenuItem>
             <MenuItem value="salad">Salad</MenuItem>
             <MenuItem value="drinks">Drinks</MenuItem>
+            <MenuItem value="dessert">Dessert</MenuItem>
           </Select>
           <TextField
             label="Description"

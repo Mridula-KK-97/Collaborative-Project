@@ -57,10 +57,10 @@ const fetchUsers = async () => {
 };
 
   return (
-   <Box sx={{ mt: 3, mb: 8 }}>
+   <Box sx={{ mt: 3, mb: 8 ,ml:3}}>
       <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-        <Typography variant="h5" fontWeight="bold">Admin Settings</Typography>
-        <Button variant="contained"  startIcon={<Settings />} sx={{backgroundColor:'#6fbf73',color:'black'}}>
+        <Typography variant="h5" fontWeight="bold" color='white'>Admin Settings</Typography>
+        <Button variant="contained"  startIcon={<Settings />} sx={{backgroundColor:' #1D4ED8',color:'black'}}>
           Save Changes
         </Button>
       </Box>
@@ -87,35 +87,35 @@ const fetchUsers = async () => {
         <Box p={3}>
           {activeTab === 0 && (
             <Grid container spacing={3}>
-              <Grid  xs={12} sm={6}>
+              <Grid  span={12} sm={6}>
                 <TextField
                   label="Restaurant Name"
                   fullWidth
                   defaultValue="Bella Vista Restaurant"
                 />
               </Grid>
-              <Grid  xs={12} sm={6}>
+              <Grid  span={12} sm={6}>
                 <TextField
                   label="Phone Number"
                   fullWidth
                   defaultValue="+1 (555) 123-4567"
                 />
               </Grid>
-              <Grid xs={12} sm={6}>
+              <Grid span={12} sm={6}>
                 <TextField
                   label="Email Address"
                   fullWidth
                   defaultValue="info@bellavista.com"
                 />
               </Grid>
-              <Grid xs={12} sm={6}>
+              <Grid span={12} sm={6}>
                 <TextField
                   label="Website"
                   fullWidth
                   defaultValue="www.bellavista.com"
                 />
               </Grid>
-              <Grid xs={12}>
+              <Grid span={12}>
                 <TextField
                   label="Address"
                   fullWidth
@@ -131,7 +131,7 @@ const fetchUsers = async () => {
             <>
               <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
                 <Typography variant="h6" fontWeight="medium">Team Members</Typography>
-                <Button variant="contained" sx={{ backgroundColor: '#6fbf73', color: 'black' }} onClick={handleModal}>Add User</Button>
+                <Button variant="contained" sx={{ backgroundColor: ' #1D4ED8', color: 'black' }} onClick={handleModal}>Add User</Button>
               </Box>
               <TableContainer>
                 <Table>
@@ -141,7 +141,8 @@ const fetchUsers = async () => {
                       <TableCell>Email</TableCell>
                       <TableCell>Role</TableCell>
                       <TableCell>Status</TableCell>
-                      <TableCell>Actions</TableCell>
+                       <TableCell>date_of_joining</TableCell>
+                       <TableCell>Actions</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -160,6 +161,9 @@ const fetchUsers = async () => {
                           }}
                         />
                           </TableCell>
+                          <TableCell>
+                          {user.date_of_joining }
+                        </TableCell>
                         <TableCell>
                           <Button variant="text" color="primary">Edit</Button>
                           <Button variant="text" sx={{ color: '#ba000d' }} onClick={() => deleteUser(user.id)}>Delete</Button>

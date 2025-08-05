@@ -57,198 +57,184 @@ const fetchUsers = async () => {
 };
 
   return (
-   <Box sx={{ mt: 3, mb: 8 ,ml:3}}>
-      <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-        <Typography variant="h5" fontWeight="bold" color='white'>Admin Settings</Typography>
-        <Button variant="contained"  startIcon={<Settings />} sx={{backgroundColor:' #1D4ED8',color:'black'}}>
-          Save Changes
-        </Button>
-      </Box>
+  <Box sx={{ mt: 3, mb: 8, ml: 3,p: 2 }}>
+  <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
+    <Typography variant="h5" fontWeight="bold" color="white">Admin Settings</Typography>
+    <Button variant="contained" startIcon={<Settings />} sx={{ backgroundColor: '#1D4ED8', color: 'black' }}>
+      Save Changes
+    </Button>
+  </Box>
 
-      <Paper elevation={5} sx={{ borderRadius: 4 ,color:'black'}} >
-        <Tabs
-          value={activeTab}
-          onChange={handleTabChange}
-          variant="scrollable"
-          scrollButtons="auto"
-          sx={{ px: 2, pt: 1 }}
-        >
-          {tabData.map((tab, index) => (
-            <Tab
-              key={index}
-              label={tab.label}
-              icon={tab.icon}
-              iconPosition="start"
-              sx={{ textTransform: 'none', fontWeight: 500 ,color:'black'}}
-            />
-          ))}
-        </Tabs>
+  <Paper elevation={5} sx={{ borderRadius: 4, backgroundColor: '#2d2d2d', color: 'white' }}>
+    <Tabs
+      value={activeTab}
+      onChange={handleTabChange}
+      variant="scrollable"
+      scrollButtons="auto"
+      sx={{ px: 2, pt: 1 }}
+    >
+      {tabData.map((tab, index) => (
+        <Tab
+          key={index}
+          label={tab.label}
+          icon={tab.icon}
+          iconPosition="start"
+          sx={{
+            textTransform: 'none',
+            fontWeight: 500,
+            color: 'white',
+            '&.Mui-selected': {
+              color: 'white',
+            }
+          }}
+        />
+      ))}
+    </Tabs>
 
-        <Box p={3}>
-          {activeTab === 0 && (
-            <Grid container spacing={3}>
-              <Grid  span={12} sm={6}>
-                <TextField
-                  label="Restaurant Name"
-                  fullWidth
-                  defaultValue="Bella Vista Restaurant"
-                />
-              </Grid>
-              <Grid  span={12} sm={6}>
-                <TextField
-                  label="Phone Number"
-                  fullWidth
-                  defaultValue="+1 (555) 123-4567"
-                />
-              </Grid>
-              <Grid span={12} sm={6}>
-                <TextField
-                  label="Email Address"
-                  fullWidth
-                  defaultValue="info@bellavista.com"
-                />
-              </Grid>
-              <Grid span={12} sm={6}>
-                <TextField
-                  label="Website"
-                  fullWidth
-                  defaultValue="www.bellavista.com"
-                />
-              </Grid>
-              <Grid span={12}>
-                <TextField
-                  label="Address"
-                  fullWidth
-                  multiline
-                  minRows={3}
-                  defaultValue="123 Main Street, Downtown, NY 10001"
-                />
-              </Grid>
+    <Box p={3}>
+      {activeTab === 0 && (
+        <Grid container spacing={3}>
+          {[
+            { label: 'Restaurant Name', value: 'Bella Vista Restaurant' },
+            { label: 'Phone Number', value: '+1 (555) 123-4567' },
+            { label: 'Email Address', value: 'info@bellavista.com' },
+            { label: 'Website', value: 'www.bellavista.com' }
+          ].map((field, idx) => (
+            <Grid item xs={12} sm={6} key={idx}>
+              <TextField
+                label={field.label}
+                fullWidth
+                defaultValue={field.value}
+                InputLabelProps={{ style: { color: '#ccc' } }}
+                InputProps={{ style: { color: 'white' } }}
+              />
             </Grid>
-          )}
+          ))}
+          <Grid item xs={12}>
+            <TextField
+              label="Address"
+              fullWidth
+              multiline
+              minRows={3}
+              defaultValue="123 Main Street, Downtown, NY 10001"
+              InputLabelProps={{ style: { color: '#ccc' } }}
+              InputProps={{ style: { color: 'white' } }}
+            />
+          </Grid>
+        </Grid>
+      )}
 
-          {activeTab === 1 && (
-            <>
-              <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-                <Typography variant="h6" fontWeight="medium">Team Members</Typography>
-                <Button variant="contained" sx={{ backgroundColor: ' #1D4ED8', color: 'black' }} onClick={handleModal}>Add User</Button>
+      {activeTab === 1 && (
+        <>
+          <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
+            <Typography variant="h6" fontWeight="medium" color="white">Team Members</Typography>
+            <Button variant="contained" sx={{ backgroundColor: '#1D4ED8', color: 'black' }} onClick={handleModal}>
+              Add User
+            </Button>
+          </Box>
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  {['Name', 'Email', 'Role', 'Status', 'Date of Joining', 'Actions'].map((head, i) => (
+                    <TableCell key={i} sx={{ color: 'white', fontWeight: 'bold' }}>{head}</TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {users.map((user, idx) => (
+                  <TableRow key={idx}>
+                    <TableCell sx={{ color: 'white' }}>{user.name}</TableCell>
+                    <TableCell sx={{ color: 'white' }}>{user.email}</TableCell>
+                    <TableCell sx={{ color: 'white' }}>{user.role}</TableCell>
+                    <TableCell>
+                      <Chip
+                        label={user.status === 'TRU' || user.status === true ? 'ACTIVE' : 'INACTIVE'}
+                        sx={{
+                          color: user.status ? '#4caf50' : '#f44336',
+                          fontWeight: 'bold',
+                          mb: 1,
+                        }}
+                      />
+                    </TableCell>
+                    <TableCell sx={{ color: 'white' }}>{user.date_of_joining}</TableCell>
+                    <TableCell>
+                      <Button variant="text" color="primary">Edit</Button>
+                      <Button variant="text" sx={{ color: '#ba000d' }} onClick={() => deleteUser(user.id)}>Delete</Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <AddUsers open={open} handleClose={handleModal} onUserAdded={fetchUsers} />
+        </>
+      )}
+
+      {activeTab === 2 && (
+        <>
+          <Typography variant="h6" fontWeight="medium" mb={2} color="white">
+            Alert Preferences
+          </Typography>
+          {[
+            {
+              title: 'New Orders',
+              desc: 'Get notified when new orders are placed',
+              enabled: true,
+            },
+            {
+              title: 'Low Stock',
+              desc: 'Alert when inventory items are running low',
+              enabled: true,
+            },
+            {
+              title: 'Daily Reports',
+              desc: 'Receive daily sales and performance reports',
+              enabled: true,
+            },
+            {
+              title: 'System Updates',
+              desc: 'Notifications about system updates and maintenance',
+              enabled: false,
+            },
+            {
+              title: 'Email Notifications',
+              desc: 'Send notifications via email',
+              enabled: true,
+            },
+            {
+              title: 'Sms Notifications',
+              desc: 'Send notifications via SMS',
+              enabled: false,
+            },
+          ].map((item, index) => (
+            <Box
+              key={index}
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
+              py={2}
+              borderBottom={1}
+              borderColor="divider"
+            >
+              <Box>
+                <Typography fontWeight="medium" color="white">{item.title}</Typography>
+                <Typography variant="body2" color="gray">{item.desc}</Typography>
               </Box>
-              <TableContainer>
-                <Table>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>Name</TableCell>
-                      <TableCell>Email</TableCell>
-                      <TableCell>Role</TableCell>
-                      <TableCell>Status</TableCell>
-                       <TableCell>date_of_joining</TableCell>
-                       <TableCell>Actions</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {users.map((user, idx) => (
-                      <TableRow key={idx}>
-                        <TableCell>{user.name}</TableCell>
-                        <TableCell>{user.email}</TableCell>
-                        <TableCell>{user.role}</TableCell>
-                        <TableCell>
-                         <Chip
-                          label={user.status === 'TRU' || user.status === true ? 'ACTIVE' : 'INACTIVE'}
-                          sx={{
-                            color: user.status? '#4caf50' : '#f44336',
-                            fontWeight: 'bold',
-                            mb: 1,
-                          }}
-                        />
-                          </TableCell>
-                          <TableCell>
-                          {user.date_of_joining }
-                        </TableCell>
-                        <TableCell>
-                          <Button variant="text" color="primary">Edit</Button>
-                          <Button variant="text" sx={{ color: '#ba000d' }} onClick={() => deleteUser(user.id)}>Delete</Button>
-                        </TableCell>
-                        
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-              <AddUsers open={open} handleClose={handleModal} onUserAdded={fetchUsers}  />
-            </>
-          )}
-    
-          {activeTab > 1 && (
-            <Typography color="text.secondary">
-              This section ({tabData[activeTab].label}) is under development.
-            </Typography>
-          )}
+              <Switch color="primary" defaultChecked={item.enabled} />
+            </Box>
+          ))}
+        </>
+      )}
 
-            {activeTab === 2 && (
-            <>
-              <Typography variant="h6" fontWeight="medium" mb={2}>
-                Alert Preferences
-              </Typography>
-
-              {[
-                {
-                  title: 'New Orders',
-                  desc: 'Get notified when new orders are placed',
-                  enabled: true,
-                },
-                {
-                  title: 'Low Stock',
-                  desc: 'Alert when inventory items are running low',
-                  enabled: true,
-                },
-                {
-                  title: 'Daily Reports',
-                  desc: 'Receive daily sales and performance reports',
-                  enabled: true,
-                },
-                {
-                  title: 'System Updates',
-                  desc: 'Notifications about system updates and maintenance',
-                  enabled: false,
-                },
-                {
-                  title: 'Email Notifications',
-                  desc: 'Send notifications via email',
-                  enabled: true,
-                },
-                {
-                  title: 'Sms Notifications',
-                  desc: 'Send notifications via SMS',
-                  enabled: false,
-                },
-              ].map((item, index) => (
-                <Box
-                  key={index}
-                  display="flex"
-                  justifyContent="space-between"
-                  alignItems="center"
-                  py={2}
-                  borderBottom={1}
-                  borderColor="divider"
-                >
-                  <Box>
-                    <Typography fontWeight="medium">{item.title}</Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {item.desc}
-                    </Typography>
-                  </Box>
-                  <Switch
-                    color="primary"
-                    defaultChecked={item.enabled}
-                  />
-                </Box>
-              ))}
-            </>
-          )}
-
-        </Box>
-      </Paper>
+      {activeTab > 2 && (
+        <Typography color="gray">
+          This section ({tabData[activeTab].label}) is under development.
+        </Typography>
+      )}
     </Box>
-  );
+  </Paper>
+</Box>
+  )
 }
 export default Setting

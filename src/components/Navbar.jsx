@@ -51,15 +51,17 @@ const Navbar = () => {
       open={Boolean(anchorEl)}
       onClose={handleClose}
     >
-      <MenuItem disabled>
-        <Typography>{user.name}</Typography>
-      </MenuItem>
-      <MenuItem disabled>
-        <Typography>{user.email}</Typography>
-      </MenuItem>
-      <MenuItem disabled>
-        <Typography>{user.role}</Typography>
-      </MenuItem>
+     <MenuItem disabled>
+    <Box sx={{ width: '100%', textAlign: 'center' }}>
+      <Typography sx={{ color: 'black', fontWeight: 'bold' }}>
+        {user.name}
+      </Typography>
+      <Typography variant="body2" sx={{ color: 'black', fontWeight: 'bold' }}>
+        {user.role}
+      </Typography>
+      <Typography>{user.email}</Typography>
+    </Box>
+    </MenuItem>
       <MenuItem onClick={handleLogout}>
         <Typography color="error">Sign Out</Typography>
       </MenuItem>

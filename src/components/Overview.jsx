@@ -10,6 +10,7 @@ const Overview = () => {
   const [dateString, setDateString] = useState('');
   const [open, setOpen] = useState(false);
   const theme = useTheme();
+   const [orders, setOrders] = useState([]);
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   useEffect(() => {
@@ -23,17 +24,23 @@ const Overview = () => {
   }, []);
 
   const stats = [
-    { label: 'Total Orders', value: 3, icon: <ShoppingCartIcon />, bg: '#e0f2fe', color: '#0284c7' },
+    { label: 'Total Orders', value: 4, icon: <ShoppingCartIcon />, bg: '#e0f2fe', color: '#0284c7' },
     { label: "Today's Revenue", value: '$97.45', icon: <AttachMoneyIcon />, bg: '#dcfce7', color: '#16a34a' },
     { label: 'Pending Orders', value: 1, icon: <AccessTimeIcon />, bg: '#fef9c3', color: '#eab308' },
     { label: 'Avg Order Value', value: '$32.48', icon: <TrendingUpIcon />, bg: '#f3e8ff', color: '#9333ea' },
   ];
 
-  const orders = [
-    { id: 'ORD001', table: 'Table 5', items: 3, total: '$46.48', status: 'Preparing', time: '11:55:55 AM' },
-    { id: 'ORD002', table: 'Table 3', items: 1, total: '$8.99', status: 'Ready', time: '11:40:55 AM' },
-    { id: 'ORD003', table: 'Table 8', items: 2, total: '$41.98', status: 'Served', time: '11:25:55 AM' },
-  ];
+ 
+
+  useEffect(() => {
+    async function fetchOrders() {
+      const res = await fetch('/api/order/get');
+      const data = await res.json();
+      setOrders(data);
+    }
+
+    fetchOrders();
+  }, []);
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -107,10 +114,10 @@ const Overview = () => {
                 <TableBody>
                   {orders.map((order) => (
                     <TableRow key={order.id}>
-                      <TableCell><Typography fontWeight="bold">{order.id}</Typography></TableCell>
-                      <TableCell>{order.table}</TableCell>
-                      <TableCell>{order.items} items</TableCell>
-                      <TableCell><Typography fontWeight="bold">{order.total}</Typography></TableCell>
+                      <TableCell><Typography fontWeight="bold">{order.order_id}</Typography></TableCell>
+                      <TableCell>{order.table_no}</TableCell>
+                      <TableCell>{order.item} items</TableCell>
+                      <TableCell><Typography fontWeight="bold">{order.tot_price}</Typography></TableCell>
                       <TableCell>
                         <Chip
                           label={order.status}
@@ -119,7 +126,7 @@ const Overview = () => {
                           sx={{ fontWeight: 500 }}
                         />
                       </TableCell>
-                      <TableCell>{order.time}</TableCell>
+                      <TableCell>{order.created_at}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

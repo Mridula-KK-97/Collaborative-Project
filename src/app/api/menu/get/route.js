@@ -1,9 +1,8 @@
-// app/api/orders/get/route.js
 import { supabase } from '@/lib/supabaseClient';
 
 export async function GET() {
   const { data, error } = await supabase
-    .from('orders') // replace with your table name
+    .from('orders') 
     .select('*')
     .order('created_at', { ascending: false });
 

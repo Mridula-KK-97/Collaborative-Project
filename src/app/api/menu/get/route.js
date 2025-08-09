@@ -2,7 +2,7 @@ import { supabase } from '@/lib/supabaseClient';
 
 export async function GET() {
   const { data, error } = await supabase
-    .from('orders') 
+    .from('menu_items') 
     .select('*')
     .order('created_at', { ascending: false });
 

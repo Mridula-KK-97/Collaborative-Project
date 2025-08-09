@@ -5,4 +5,8 @@ const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 const supabaseservice = process.env.SUPABASE_SERVICE_ROLE_KEY 
 
 
+
+
 export const supabase = createClient(supabaseUrl, supabaseservice)
+
+export const supabase2 = createClient(supabaseUrl, supabaseAnonKey)

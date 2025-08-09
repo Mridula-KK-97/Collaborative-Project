@@ -51,14 +51,15 @@ const UserMenu = () => {
   };
 
   const filteredItems = menuItems.filter((item) => {
-    const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory =
-      categoryFilter === 'all' ||
-      (categoryFilter === 'veg' && item.veg) ||
-      (categoryFilter === 'non-veg' && !item.veg) ||
-      (categoryFilter === 'drinks' && item.category === 'drinks');
-    return matchesSearch && matchesCategory;
-  });
+  const matchesSearch = item.name?.toLowerCase().includes(searchTerm.toLowerCase());
+  const matchesCategory =
+    categoryFilter === 'all' ||
+    (categoryFilter === 'veg' && item.veg) ||
+    (categoryFilter === 'non-veg' && !item.veg) ||
+    (categoryFilter === 'drinks' && item.category === 'drinks');
+  return matchesSearch && matchesCategory;
+});
+
 
   return (
     <div className="min-h-screen p-6 bg-yellow-50">
